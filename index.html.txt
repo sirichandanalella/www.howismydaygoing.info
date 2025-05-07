@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Check in with yourself and spread good vibes at work.">
+  <title>How Was Your Day? | Wellbeing Check-In</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background-color: #f0f8ff;
+      text-align: center;
+      padding: 50px;
+      color: #333;
+    }
+    input, select, button, textarea {
+      margin: 10px;
+      padding: 10px;
+      font-size: 1em;
+      width: 80%;
+      max-width: 400px;
+    }
+    .hidden {
+      display: none;
+    }
+    footer {
+      margin-top: 40px;
+      font-size: 0.9em;
+      color: #666;
+    }
+    a {
+      color: #0077cc;
+    }
+  </style>
+</head>
+<body>
+  <h1>How Was Your Day?</h1>
+
+  <div id="step1">
+    <p>Hey you! Yes, you! What's your legendary name?</p>
+    <input type="text" id="nameInput" placeholder="Enter your epic alias..." />
+    <br />
+    <button onclick="goToQuestions()">Proceed, brave soul</button>
+  </div>
+
+  <div id="questions" class="hidden">
+    <p>Rate your current life spice level:</p>
+    <select id="q1">
+      <option value="1">Like a soggy taco</option>
+      <option value="2">Left on read by life</option>
+      <option value="3">Meh, still breathing</option>
+      <option value="4">Jazz hands and joy</option>
+      <option value="5">Unicorns high-fiving me</option>
+    </select><br />
+
+    <p>How’s your energy today?</p>
+    <select id="q2">
+      <option value="1">Sloth on a Sunday</option>
+      <option value="2">Caffeine not found</option>
+      <option value="3">Somewhat existing</option>
+      <option value="4">Groovy like a disco ball</option>
+      <option value="5">Rocket-fueled motivation</option>
+    </select><br />
+
+    <p>What's your vibe check score?</p>
+    <select id="q3">
+      <option value="1">Cursed potato</option>
+      <option value="2">Ehh</option>
+      <option value="3">Neutral nugget</option>
+      <option value="4">Floating cloud of calm</option>
+      <option value="5">Glitter bomb of positivity</option>
+    </select><br />
+
+    <p>How did the world treat you today?</p>
+    <select id="q4">
+      <option value="1">World: 1, Me: 0</option>
+      <option value="2">Ambushed by adulthood</option>
+      <option value="3">No news is good news?</option>
+      <option value="4">Minor victories, major snacks</option>
+      <option value="5">Champion of the universe</option>
+    </select><br />
+
+    <p>Your brain is currently...</p>
+    <select id="q5">
+      <option value="1">Buffering endlessly</option>
+      <option value="2">Mild chaos</option>
+      <option value="3">Tired but trying</option>
+      <option value="4">Firing on decent cylinders</option>
+      <option value="5">Galaxy brain unlocked</option>
+    </select><br />
+
+    <button onclick="showResult()">Summon your vibe message</button>
+  </div>
+
+  <div id="result" class="hidden">
+    <p id="affirmation"></p>
+    <p>Leave some good vibes for your future wellbeing buddy:</p>
+    <textarea id="userMessage" rows="3" placeholder="Type something kind and magical..."></textarea><br />
+    <button onclick="saveMessage()">Send the good vibes!</button>
+  </div>
+
+  <div id="finalMessage" class="hidden">
+    <p><strong>Your colleague or wellbeing friend says:</strong></p>
+    <p id="previousMessage"></p>
+  </div>
+
+  <footer>
+    <hr />
+    <p><strong>Mental Health Resources (Australia):</strong></p>
+    <ul style="list-style: none; padding: 0;">
+      <li><a href="https://www.beyondblue.org.au" target="_blank">Beyond Blue – 1300 22 4636</a></li>
+      <li><a href="https://www.lifeline.org.au" target="_blank">Lifeline – 13 11 14</a></li>
+      <li><a href="https://headspace.org.au" target="_blank">Headspace (for young people)</a></li>
+      <li><a href="https://www.blackdoginstitute.org.au" target="_blank">Black Dog Institute</a></li>
+    </ul>
+    <p>Remember: you're not alone — your team, your friends, and professionals are here for you. 💙</p>
+  </footer>
+
+  <script>
+    const messages = {
+      1: [
+        "Hey, even soggy tacos are loved by someone!",
+        "Rest is productive too, nap warrior!",
+        "You’re not a cursed potato—you’re hashbrown royalty!",
+        "Every pixel of you is appreciated.",
+        "You survived today like a champ!"
+      ],
+      2: [
+        "Even sloths eventually get there. You’re doing fine!",
+        "You got this, slow and steady genius.",
+        "Some days, existing is the win. Take it!",
+        "You’re basically a human comfort blanket.",
+        "You've earned every moment of chill."
+      ],
+      3: [
+        "You’re doing better than you think, miracle muffin!",
+        "Floating through life with style!",
+        "Mediocre days make marvelous stories.",
+        "Keep calm and sparkle mildly.",
+        "You're the unsung hero of Tuesday."
+      ],
+      4: [
+        "You’re vibing like a symphony of snacks.",
+        "People wish they had your groove.",
+        "Mentally you're basically doing jazz hands!",
+        "That cloud you’re floating on? Fabulous.",
+        "Rocking the okay-est way to live!"
+      ],
+      5: [
+        "Beam us up! Positivity detected!",
+        "You’re the good kind of contagious. Keep beaming!",
+        "You may be the reason someone smiled today!",
+        "Galaxy brain activated. Enlighten us!",
+        "You’re not just fine, you’re fantastical!"
+      ]
+    };
+
+    function goToQuestions() {
+      document.getElementById('step1').classList.add('hidden');
+      document.getElementById('questions').classList.remove('hidden');
+    }
+
+    function showResult() {
+      const answers = [
+        parseInt(document.getElementById('q1').value),
+        parseInt(document.getElementById('q2').value),
+        parseInt(document.getElementById('q3').value),
+        parseInt(document.getElementById('q4').value),
+        parseInt(document.getElementById('q5').value)
+      ];
+
+      const avg = Math.round(answers.reduce((a, b) => a + b, 0) / answers.length);
+      const affirmationList = messages[avg] || messages[3];
+      const randomAffirmation = affirmationList[Math.floor(Math.random() * affirmationList.length)];
+
+      document.getElementById('affirmation').innerText = randomAffirmation;
+      document.getElementById('questions').classList.add('hidden');
+      document.getElementById('result').classList.remove('hidden');
+    }
+
+    function saveMessage() {
+      const msg = document.getElementById('userMessage').value.trim();
+      if (msg) {
+        localStorage.setItem('wellbeingMessage', msg);
+        document.getElementById('result').classList.add('hidden');
+        document.getElementById('finalMessage').classList.remove('hidden');
+        document.getElementById('previousMessage').innerText = msg;
+      }
+    }
+
+    window.onload = () => {
+      const saved = localStorage.getItem('wellbeingMessage');
+      if (saved) {
+        document.getElementById('previousMessage').innerText = saved;
+      }
+    };
+  </script>
+</body>
+</html>
